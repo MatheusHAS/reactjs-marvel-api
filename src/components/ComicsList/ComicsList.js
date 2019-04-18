@@ -1,11 +1,12 @@
-import React, { Fragment } from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import React, { Fragment } from 'react'
+import { withStyles } from '@material-ui/core/styles'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItemAvatar from '@material-ui/core/ListItemAvatar'
+import Avatar from '@material-ui/core/Avatar'
+import Loading from './../Loading/Loading'
+import PropTypes from 'prop-types'
 import { endpoint, apikey } from './../../configs'
 
 const styles = theme => ({
@@ -13,10 +14,7 @@ const styles = theme => ({
     width: '100%',
     backgroundColor: theme.palette.background.paper,
   },
-  progress: {
-    margin: theme.spacing.unit * 2,
-  },
-});
+})
 
 const _onComicClick = (id) => {
   console.log('Click on', id)
@@ -37,25 +35,21 @@ class ComicsList extends React.Component {
     super()
     this.state = {
       comics: [],
-      loading: true,
+      isLoading: true,
     }
   }
 
   componentDidMount() {
     fetch(`${endpoint}/v1/public/comics?${apikey}`, { method: 'GET' })
       .then(result => result.json())
-      .then(response => {
-        this.setState({comics: response.data.results, loading: false})
-      })
+      .then(response => this.setState({comics: response.data.results, isLoading: false}))
   }
 
   render() {
-    const { classes } = this.props;
-    let comics = null;
-    const loading = <CircularProgress className={classes.progress} />
-    if (this.state.loading) {
-      comics = <CircularProgress className={classes.progress} />
-    } else {
+    const { classes } = this.props
+    let comics = null
+    const loading = <Loading/>
+    if (!this.state.isLoading) {
       comics = (this.state.comics.length !== 0) ? this.state.comics.map((comic) => comicItem({
         index: comic.id,
         image: `${comic.thumbnail.path}.${comic.thumbnail.extension}`,
@@ -64,14 +58,28 @@ class ComicsList extends React.Component {
     }
 
     return (
-      (this.state.loading) ? loading : 
+      (this.state.isLoading) ? loading : 
       <Fragment>
         <List dense className={classes.root}>
           {comics}
         </List>
       </Fragment>      
-    );
+    )
   }
 }
 
-export default withStyles(styles)(ComicsList);
+comicItem.propTypes = {
+  index: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
+  image: PropTypes.string,
+  alt: PropTypes.string,
+  text: PropTypes.string,
+}
+
+ComicsList.propTypes = {
+  classes: PropTypes.object,
+}
+
+export default withStyles(styles)(ComicsList)

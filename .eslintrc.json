@@ -1,0 +1,55 @@
+{
+  "rules": {
+    "no-console": 0,
+    "no-underscore-dangle": 0,
+    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+    "no-unused-vars": ["error", { "argsIgnorePattern": "next" }],
+    "no-use-before-define": ["error", { "variables": false }],
+    "no-multi-str": 0,
+    "linebreak-style": ["error", "unix"],
+    "semi": [2, "never"],
+    "camelcase": 0,
+    "no-param-reassign": [2, { "props": false }],
+    "prefer-destructuring": [2, { "array": false, "object": false }]
+  },
+  "env": {
+    "node": true,
+    "browser": true,
+    "es6": true,
+    "jquery": false
+  },
+  "settings": {
+    "react": {
+      "createClass": "createReactClass",
+      "pragma": "React",
+      "version": "detect",
+      "flowVersion": "0.53"
+    },
+    "propWrapperFunctions": [
+        "forbidExtraProps",
+        {"property": "freeze", "object": "Object"},
+        {"property": "myFavoriteWrapper"}
+    ],
+    "linkComponents": [
+      "Hyperlink",
+      {"name": "Link", "linkAttribute": "to"}
+    ]
+  },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
+  "plugins": [
+    "react"
+  ],
+  "globals": {
+    "fetch": false
+  }
+}

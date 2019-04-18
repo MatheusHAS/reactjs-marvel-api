@@ -19,10 +19,21 @@
   "eslintConfig": {
     "extends": "react-app"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "eslint src/**/**/*.js --fix",
+      "pre-push": "eslint src/**/**/*.js --fix"
+    }
+  },
   "browserslist": [
     ">0.2%",
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-plugin-prettier": "^3.0.1",
+    "husky": "^1.3.1"
+  }
 }

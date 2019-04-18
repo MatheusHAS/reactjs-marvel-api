@@ -1,13 +1,13 @@
-import React, { Fragment } from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import IconButton from '@material-ui/core/IconButton';
-import InfoIcon from '@material-ui/icons/Info';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
+import React, { Fragment } from 'react'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import GridList from '@material-ui/core/GridList'
+import GridListTile from '@material-ui/core/GridListTile'
+import GridListTileBar from '@material-ui/core/GridListTileBar'
+import IconButton from '@material-ui/core/IconButton'
+import InfoIcon from '@material-ui/icons/Info'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
+import Loading from './../Loading/Loading'
 import { endpoint, apikey } from './../../configs'
 
 import './CharactersList.css'
@@ -27,10 +27,7 @@ const styles = theme => ({
   icon: {
     color: 'white',
   },
-  progress: {
-    margin: theme.spacing.unit * 2,
-  },
-});
+})
 
 const _onCharacterClick = (id) => {
   console.log('Click on', id)
@@ -59,24 +56,22 @@ class CharactersList extends React.Component {
     super()
     this.state = {
       characters: [],
-      loading: true,
+      isLoading: true,
+      hasMore: true,
     }
   }
 
   componentDidMount() {
     fetch(`${endpoint}/v1/public/characters?${apikey}`, { method: 'GET' })
       .then(result => result.json())
-      .then(response => {
-        console.log(response)
-        this.setState({characters: response.data.results, loading: false})
-      })
+      .then(response => this.setState({characters: response.data.results, isLoading: false}))
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes } = this.props
     let content = null
-    const loading = <CircularProgress className={classes.progress} />
-    if (!this.state.loading) {
+    const loading = <Loading/>
+    if (!this.state.isLoading) {
       content = this.state.characters.map(character => characterItem({
         index: character.id,
         image: `${character.thumbnail.path}.${character.thumbnail.extension}`,
@@ -87,7 +82,7 @@ class CharactersList extends React.Component {
     return (
       <Fragment>
         {
-          (this.state.loading) ? loading : 
+          (this.state.isLoading) ? loading : 
           <div className={classes.root}>
             <GridList cellHeight={250} className={classes.gridList} data-grid-item>
               {content}
@@ -95,9 +90,23 @@ class CharactersList extends React.Component {
           </div>
         }
       </Fragment>
-    );
+    )
   }
-  
 }
 
-export default withStyles(styles)(CharactersList);
+CharactersList.propTypes = {
+  classes: PropTypes.object,
+}
+
+characterItem.propTypes = {
+  index: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
+  image: PropTypes.string,
+  name: PropTypes.string,
+  subtitle: PropTypes.string,
+  icon: PropTypes.string,
+}
+
+export default withStyles(styles)(CharactersList)
