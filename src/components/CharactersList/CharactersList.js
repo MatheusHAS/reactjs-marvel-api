@@ -10,6 +10,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { endpoint, apikey } from './../../configs'
 
+import './CharactersList.css'
+
 const styles = theme => ({
   root: {
     display: 'flex',
@@ -19,11 +21,11 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper,
   },
   gridList: {
-    width: 500,
-    height: 450,
+    maxWidth: '100%',
+    height: '100%',
   },
   icon: {
-    color: 'rgba(255, 255, 255, 0.54)',
+    color: 'white',
   },
   progress: {
     margin: theme.spacing.unit * 2,
@@ -44,7 +46,7 @@ const characterItem = (props) => <GridListTile key={props.index}>
       title={props.name}
       subtitle={<span>{props.subtitle}</span>}
       actionIcon={
-        <IconButton onClick={(event) => _onCharacterClick(props.index, event)}>
+        <IconButton onClick={(event) => _onCharacterClick(props.index, event)}  className={props.icon}>
           <InfoIcon />
         </IconButton>
       }
@@ -79,6 +81,7 @@ class CharactersList extends React.Component {
         index: character.id,
         image: `${character.thumbnail.path}.${character.thumbnail.extension}`,
         name: character.name,
+        icon: classes.icon,
       }))
     }
     return (
@@ -86,7 +89,7 @@ class CharactersList extends React.Component {
         {
           (this.state.loading) ? loading : 
           <div className={classes.root}>
-            <GridList cellHeight={250} className={classes.gridList}>
+            <GridList cellHeight={250} className={classes.gridList} data-grid-item>
               {content}
             </GridList>
           </div>

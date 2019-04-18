@@ -1,0 +1,10 @@
+[data-grid-item] li {
+    text-align: center;
+}
+@media (min-width: 1000px) {
+    [data-grid-item] li img {
+        width: 100%;
+        height: auto;
+        margin-top: -20%;
+    }
+}
