@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -19,11 +18,11 @@ const styles = theme => ({
   },
 });
 
-const _onClickComic = (id) => {
+const _onComicClick = (id) => {
   console.log('Click on', id)
 }
 
-const comicItem = (props) => <ListItem key={props.index} onClick={(event) => _onClickComic(props.index, event)} button>
+const comicItem = (props) => <ListItem key={props.index} onClick={(event) => _onComicClick(props.index, event)} button>
     <ListItemAvatar>
       <Avatar
           alt={`${(props.alt) ? props.alt : ''}`}
@@ -52,11 +51,12 @@ class ComicsList extends React.Component {
 
   render() {
     const { classes } = this.props;
-    let content = null;
+    let comics = null;
+    const loading = <CircularProgress className={classes.progress} />
     if (this.state.loading) {
-      content = <CircularProgress className={classes.progress} />
+      comics = <CircularProgress className={classes.progress} />
     } else {
-      content = (this.state.comics.length !== 0) ? this.state.comics.map((comic) => comicItem({
+      comics = (this.state.comics.length !== 0) ? this.state.comics.map((comic) => comicItem({
         index: comic.id,
         image: `${comic.thumbnail.path}.${comic.thumbnail.extension}`,
         text: comic.title,
@@ -64,12 +64,12 @@ class ComicsList extends React.Component {
     }
 
     return (
+      (this.state.loading) ? loading : 
       <Fragment>
         <List dense className={classes.root}>
-          {content}
+          {comics}
         </List>
-      </Fragment>
-      
+      </Fragment>      
     );
   }
 }
