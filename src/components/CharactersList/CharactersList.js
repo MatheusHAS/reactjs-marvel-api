@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
@@ -56,6 +57,7 @@ class CharactersList extends React.Component {
     this.state = {
       characters: [],
       isLoading: true,
+      hasMore: true,
     }
   }
 
@@ -90,7 +92,21 @@ class CharactersList extends React.Component {
       </Fragment>
     );
   }
-  
+}
+
+CharactersList.propTypes = {
+  classes: PropTypes.object,
+}
+
+characterItem.propTypes = {
+  index: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
+  image: PropTypes.string,
+  name: PropTypes.string,
+  subtitle: PropTypes.string,
+  icon: PropTypes.string,
 }
 
 export default withStyles(styles)(CharactersList);

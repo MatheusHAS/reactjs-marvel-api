@@ -1,4 +1,5 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -15,6 +16,10 @@ class Loading extends Component {
       <CircularProgress className={classes.progress} />
     )
   }
+}
+
+Loading.propTypes = {
+  classes: PropTypes.object,
 }
 
 export default withStyles(styles)(Loading);

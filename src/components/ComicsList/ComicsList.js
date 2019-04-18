@@ -5,8 +5,9 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
-import { endpoint, apikey } from './../../configs'
 import Loading from './../Loading/Loading'
+import PropTypes from 'prop-types';
+import { endpoint, apikey } from './../../configs'
 
 const styles = theme => ({
   root: {
@@ -65,6 +66,20 @@ class ComicsList extends React.Component {
       </Fragment>      
     );
   }
+}
+
+comicItem.propTypes = {
+  index: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
+  image: PropTypes.string,
+  alt: PropTypes.string,
+  text: PropTypes.string,
+}
+
+ComicsList.propTypes = {
+  classes: PropTypes.object,
 }
 
 export default withStyles(styles)(ComicsList);
