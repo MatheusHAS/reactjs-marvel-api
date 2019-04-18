@@ -5,16 +5,13 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { endpoint, apikey } from './../../configs'
+import Loading from './../Loading/Loading'
 
 const styles = theme => ({
   root: {
     width: '100%',
     backgroundColor: theme.palette.background.paper,
-  },
-  progress: {
-    margin: theme.spacing.unit * 2,
   },
 });
 
@@ -37,25 +34,21 @@ class ComicsList extends React.Component {
     super()
     this.state = {
       comics: [],
-      loading: true,
+      isLoading: true,
     }
   }
 
   componentDidMount() {
     fetch(`${endpoint}/v1/public/comics?${apikey}`, { method: 'GET' })
       .then(result => result.json())
-      .then(response => {
-        this.setState({comics: response.data.results, loading: false})
-      })
+      .then(response => this.setState({comics: response.data.results, isLoading: false}))
   }
 
   render() {
     const { classes } = this.props;
     let comics = null;
-    const loading = <CircularProgress className={classes.progress} />
-    if (this.state.loading) {
-      comics = <CircularProgress className={classes.progress} />
-    } else {
+    const loading = <Loading/>
+    if (!this.state.isLoading) {
       comics = (this.state.comics.length !== 0) ? this.state.comics.map((comic) => comicItem({
         index: comic.id,
         image: `${comic.thumbnail.path}.${comic.thumbnail.extension}`,
@@ -64,7 +57,7 @@ class ComicsList extends React.Component {
     }
 
     return (
-      (this.state.loading) ? loading : 
+      (this.state.isLoading) ? loading : 
       <Fragment>
         <List dense className={classes.root}>
           {comics}
