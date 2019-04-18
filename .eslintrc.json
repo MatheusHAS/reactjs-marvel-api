@@ -1,4 +1,23 @@
 {
+  "rules": {
+    "no-console": 0,
+    "no-underscore-dangle": 0,
+    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+    "no-unused-vars": ["error", { "argsIgnorePattern": "next" }],
+    "no-use-before-define": ["error", { "variables": false }],
+    "no-multi-str": 0,
+    "linebreak-style": ["error", "unix"],
+    "semi": [2, "never"],
+    "camelcase": 0,
+    "no-param-reassign": [2, { "props": false }],
+    "prefer-destructuring": [2, { "array": false, "object": false }]
+  },
+  "env": {
+    "node": true,
+    "browser": true,
+    "es6": true,
+    "jquery": false
+  },
   "settings": {
     "react": {
       "createClass": "createReactClass",

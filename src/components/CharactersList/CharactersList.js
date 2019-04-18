@@ -1,12 +1,12 @@
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
-import IconButton from '@material-ui/core/IconButton';
-import InfoIcon from '@material-ui/icons/Info';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
+import React, { Fragment } from 'react'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import GridList from '@material-ui/core/GridList'
+import GridListTile from '@material-ui/core/GridListTile'
+import GridListTileBar from '@material-ui/core/GridListTileBar'
+import IconButton from '@material-ui/core/IconButton'
+import InfoIcon from '@material-ui/icons/Info'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 import Loading from './../Loading/Loading'
 import { endpoint, apikey } from './../../configs'
 
@@ -27,7 +27,7 @@ const styles = theme => ({
   icon: {
     color: 'white',
   },
-});
+})
 
 const _onCharacterClick = (id) => {
   console.log('Click on', id)
@@ -68,7 +68,7 @@ class CharactersList extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes } = this.props
     let content = null
     const loading = <Loading/>
     if (!this.state.isLoading) {
@@ -90,7 +90,7 @@ class CharactersList extends React.Component {
           </div>
         }
       </Fragment>
-    );
+    )
   }
 }
 
@@ -109,4 +109,4 @@ characterItem.propTypes = {
   icon: PropTypes.string,
 }
 
-export default withStyles(styles)(CharactersList);
+export default withStyles(styles)(CharactersList)

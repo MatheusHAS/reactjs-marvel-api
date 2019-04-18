@@ -1,12 +1,12 @@
-import React, { Fragment } from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
+import React, { Fragment } from 'react'
+import { withStyles } from '@material-ui/core/styles'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItemAvatar from '@material-ui/core/ListItemAvatar'
+import Avatar from '@material-ui/core/Avatar'
 import Loading from './../Loading/Loading'
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 import { endpoint, apikey } from './../../configs'
 
 const styles = theme => ({
@@ -14,7 +14,7 @@ const styles = theme => ({
     width: '100%',
     backgroundColor: theme.palette.background.paper,
   },
-});
+})
 
 const _onComicClick = (id) => {
   console.log('Click on', id)
@@ -46,8 +46,8 @@ class ComicsList extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
-    let comics = null;
+    const { classes } = this.props
+    let comics = null
     const loading = <Loading/>
     if (!this.state.isLoading) {
       comics = (this.state.comics.length !== 0) ? this.state.comics.map((comic) => comicItem({
@@ -64,7 +64,7 @@ class ComicsList extends React.Component {
           {comics}
         </List>
       </Fragment>      
-    );
+    )
   }
 }
 
@@ -82,4 +82,4 @@ ComicsList.propTypes = {
   classes: PropTypes.object,
 }
 
-export default withStyles(styles)(ComicsList);
+export default withStyles(styles)(ComicsList)
