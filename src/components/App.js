@@ -17,9 +17,9 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import ComicsListPage from './ComicsListPage/ComicsListPage';
 import CharactersListPage from './CharactersListPage/CharactersListPage';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -80,6 +80,17 @@ const styles = theme => ({
   },
 });
 
+const menuItems = [
+  {
+    text: 'Comics',
+    route: '/comics',
+  },
+  {
+    text: 'Characters',
+    route: '/characters',
+  }
+]
+
 class App extends React.Component {
   state = {
     open: false,
@@ -98,62 +109,65 @@ class App extends React.Component {
     const { open } = this.state;
 
     return (
-      <div className={classes.root}>
-        <CssBaseline />
-        <AppBar
-          position="fixed"
-          className={classNames(classes.appBar, {
-            [classes.appBarShift]: open,
-          })}
-        >
-          <Toolbar disableGutters={!open}>
-            <IconButton
-              color="inherit"
-              aria-label="Open drawer"
-              onClick={this.handleDrawerOpen}
-              className={classNames(classes.menuButton, open && classes.hide)}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" color="inherit" noWrap>
-              ReactJS Marvel API
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <Drawer
-          className={classes.drawer}
-          variant="persistent"
-          anchor="left"
-          open={open}
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-        >
-          <div className={classes.drawerHeader}>
-            <IconButton onClick={this.handleDrawerClose}>
-              {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-            </IconButton>
-          </div>
-          <Divider />
-          <List>
-            {['Opção 1', 'Opção 2', 'Opção 3', 'Opção 4'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
-          </List>
-        </Drawer>
-        <main
-          className={classNames(classes.content, {
-            [classes.contentShift]: open,
-          })}
-        >
-          <div className={classes.drawerHeader} />
-          <ComicsListPage/>
-          {/* <CharactersListPage/> */}
-        </main>
-      </div>
+      <Router>
+        <div className={classes.root}>
+          <CssBaseline />
+          <AppBar
+            position="fixed"
+            className={classNames(classes.appBar, {
+              [classes.appBarShift]: open,
+            })}
+          >
+            <Toolbar disableGutters={!open}>
+              <IconButton
+                color="inherit"
+                aria-label="Open drawer"
+                onClick={this.handleDrawerOpen}
+                className={classNames(classes.menuButton, open && classes.hide)}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography variant="h6" color="inherit" noWrap>
+                ReactJS Marvel API
+              </Typography>
+            </Toolbar>
+          </AppBar>
+          <Drawer
+            className={classes.drawer}
+            variant="persistent"
+            anchor="left"
+            open={open}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+          >
+            <div className={classes.drawerHeader}>
+              <IconButton onClick={this.handleDrawerClose}>
+                {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+              </IconButton>
+            </div>
+            <Divider />
+            <List>
+                {menuItems.map((menu, index) => (
+                  <ListItem onClick={this.handleDrawerClose} component={Link} to={menu.route} key={menu.text} button>
+                    <ListItemIcon><InboxIcon /></ListItemIcon>
+                    <ListItemText primary={menu.text} />
+                  </ListItem>
+                ))}
+            </List>
+          </Drawer>
+          <main
+            className={classNames(classes.content, {
+              [classes.contentShift]: open,
+            })}
+          >
+            <div className={classes.drawerHeader} />
+            <Route exact path='/' component={ComicsListPage} />
+            <Route exact path='/comics' component={ComicsListPage} />
+            <Route exact path='/characters' component={CharactersListPage} />
+          </main>
+        </div>
+      </Router>
     );
   }
 }
