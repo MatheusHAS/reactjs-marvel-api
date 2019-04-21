@@ -10,6 +10,9 @@ import Loading from '../Loading'
 import { endpoint, apikey } from '../../configs'
 
 const styles = createMuiTheme({
+  typography: {
+    useNextVariants: true,
+  },
   root: {
     width: '100%',
   },

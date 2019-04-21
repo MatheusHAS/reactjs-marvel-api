@@ -12,6 +12,9 @@ import { endpoint, apikey } from '../../configs'
 
 import './CharactersList.css'
 const styles = createMuiTheme({
+  typography: {
+    useNextVariants: true,
+  },
   root: {
     display: 'flex',
     flexWrap: 'wrap',
