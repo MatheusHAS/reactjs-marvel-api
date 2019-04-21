@@ -5,6 +5,9 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 const defaultTheme = createMuiTheme()
 
 const styles = createMuiTheme({
+  typography: {
+    useNextVariants: true,
+  },
   progress: {
     margin: defaultTheme.spacing.unit * 2,
   },
