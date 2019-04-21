@@ -1,13 +1,5 @@
 ## ReactJS-Marvel-API
-
-### Install
-
-`npm i`
-
-### Run
-
-`npm start`
-
+Application that consumes data from Marvel Developers API
 
 ### To-do
 - [x] Create project
@@ -22,6 +14,15 @@
 - [ ] Add Favorite Function to Comics
 - [ ] Add Favorite Function to Characters
 - [ ] Change to Redux
+
+
+### Install
+
+`npm i`
+
+### Run
+
+`npm start`
 
 Runs the app in the development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
