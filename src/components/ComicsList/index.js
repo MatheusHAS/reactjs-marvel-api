@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import InfiniteScroll from 'react-infinite-scroll-component'
 
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -21,16 +22,26 @@ const styles = createMuiTheme({
 export default function ComicsList() {
   const [comics, setComics] = useState([])
   const [isLoading, setLoading] = useState(true)
+  const [hasMore, setHasMore] = useState(true)
+
+  const perPageLimit = 20
   
-  useEffect(() => {
-    async function getComicsList() {
-      await fetch(`${endpoint}/v1/public/comics?${apikey}`, { method: 'GET' })
-        .then(result => result.json())
-        .then(response => {
-          setComics(response.data.results)
-          setLoading(!isLoading)
-        })
-    }
+  async function getComicsList(offset = 0) {
+    const offsetResults = (offset === 0) ? 0 : offset+1
+    await fetch(`${endpoint}/v1/public/comics?${apikey}&offset=${offsetResults}&limit=${perPageLimit}`, 
+      { method: 'GET' })
+      .then(result => result.json())
+      .then(response => {
+        let comicsData = [...comics.concat(response.data.results)]
+        setComics(comicsData)
+        if (isLoading)
+          setLoading(false)
+        if (hasMore && comics.length >= response.data.total - 1)
+          setHasMore(false)
+      })
+  }
+
+  useEffect(() => {    
     getComicsList()
   }, [])
 
@@ -42,7 +53,11 @@ export default function ComicsList() {
     <MuiThemeProvider theme={styles}>
     {
       (isLoading) ? <Loading/> : 
-      <>
+      <InfiniteScroll
+        dataLength={comics.length}
+        next={() => {getComicsList(comics.length)}}
+        hasMore={hasMore}
+        loader={<h4>Loading, wait...</h4>}>
         <List dense className='root'>     
 
           {(comics.length !== 0) ? comics.map((comic) => 
@@ -58,7 +73,7 @@ export default function ComicsList() {
           ) : <h1>Não houve dados para listagem...</h1>}
 
         </List>
-      </>
+      </InfiniteScroll>
     }
     </MuiThemeProvider>
   )

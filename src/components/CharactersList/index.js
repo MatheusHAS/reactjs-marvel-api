@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import InfiniteScroll from 'react-infinite-scroll-component'
 
 import GridList from '@material-ui/core/GridList'
 import GridListTile from '@material-ui/core/GridListTile'
@@ -33,18 +34,27 @@ const styles = createMuiTheme({
 export default function CharactersList() {
   const [characters, setCharacters] = useState([])
   const [isLoading, setLoading] = useState(true)
+  const [hasMore, setHasMore] = useState(true)
 
-  useEffect(() => {
-    async function getCharacterList() {
-      await fetch(`${endpoint}/v1/public/characters?${apikey}`, { method: 'GET' })
-        .then(result => result.json())
-        .then(response => {
-          setCharacters(response.data.results)
-          setLoading(!isLoading)
-        })
-    }
+  const perPageLimit = 20
+
+  async function getCharacterList(offset = 0) {
+    const offsetResults = (offset === 0) ? 0 : offset + 1
+    await fetch(`${endpoint}/v1/public/characters?${apikey}&offset=${offsetResults}&limit=${perPageLimit}`,
+      { method: 'GET' })
+      .then(result => result.json())
+      .then(response => {
+        const charactersData = [...characters.concat(response.data.results)]
+        setCharacters(charactersData)
+        if (isLoading)
+          setLoading(false)
+        if (hasMore && characters.length >= response.data.total - 1)
+          setHasMore(false)
+      })
+  }
+
+  useEffect(() => {    
     getCharacterList()
-
   }, [])
 
   function _onCharacterClick(id) {
@@ -55,7 +65,11 @@ export default function CharactersList() {
     <MuiThemeProvider theme={styles}>
       {
         (isLoading) ? <Loading/> : 
-        <div className='root'>
+        <InfiniteScroll
+          dataLength={characters.length}
+          next={() => {getCharacterList(characters.length)}}
+          hasMore={hasMore}
+          loader={<h4>Loading, wait...</h4>}>
           <GridList cellHeight={250} className='gridList' data-grid-item>
             {characters.map(character => <GridListTile key={character.id}>
               <LazyLoadImage
@@ -74,7 +88,7 @@ export default function CharactersList() {
               />
             </GridListTile>)}
           </GridList>
-        </div>
+        </InfiniteScroll>
       }
     </MuiThemeProvider>
   )
