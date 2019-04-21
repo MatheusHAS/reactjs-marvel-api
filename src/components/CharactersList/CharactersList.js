@@ -1,6 +1,6 @@
-import React, { Fragment } from 'react'
-import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import React, { useState, useEffect } from 'react'
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+
 import GridList from '@material-ui/core/GridList'
 import GridListTile from '@material-ui/core/GridListTile'
 import GridListTileBar from '@material-ui/core/GridListTileBar'
@@ -11,14 +11,12 @@ import Loading from './../Loading/Loading'
 import { endpoint, apikey } from './../../configs'
 
 import './CharactersList.css'
-
-const styles = theme => ({
+const styles = createMuiTheme({
   root: {
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
     overflow: 'hidden',
-    backgroundColor: theme.palette.background.paper,
   },
   gridList: {
     maxWidth: '100%',
@@ -29,84 +27,54 @@ const styles = theme => ({
   },
 })
 
-const _onCharacterClick = (id) => {
-  console.log('Click on', id)
-}
+export default function CharactersList() {
+  const [characters, setCharacters] = useState([])
+  const [isLoading, setLoading] = useState(true)
 
-const characterItem = (props) => <GridListTile key={props.index}>
-    <LazyLoadImage
-      src={props.image}
-      alt={props.name}
-      height='100%'
-    />
-    <GridListTileBar
-      title={props.name}
-      subtitle={<span>{props.subtitle}</span>}
-      actionIcon={
-        <IconButton onClick={(event) => _onCharacterClick(props.index, event)}  className={props.icon}>
-          <InfoIcon />
-        </IconButton>
+  useEffect(() => {
+    async function getCharacterList() {
+      await fetch(`${endpoint}/v1/public/characters?${apikey}`, { method: 'GET' })
+        .then(result => result.json())
+        .then(response => {
+          setCharacters(response.data.results)
+          setLoading(!isLoading)
+        })
+    }
+    getCharacterList()
+
+  }, [])
+
+  function _onCharacterClick(id) {
+    console.log('Click on', id)
+  }
+
+  const loadingComponent = <Loading/>
+
+  return(
+    <MuiThemeProvider theme={styles}>
+      {
+        (isLoading) ? loadingComponent : 
+        <div className='root'>
+          <GridList cellHeight={250} className='gridList' data-grid-item>
+            {characters.map(character => <GridListTile key={character.id}>
+              <LazyLoadImage
+                src={`${character.thumbnail.path}.${character.thumbnail.extension}`}
+                alt={character.name}
+                height='100%'
+              />
+              <GridListTileBar
+                title={character.name}
+                subtitle={<span>{}</span>}
+                actionIcon={
+                  <IconButton onClick={(event) => _onCharacterClick(character.id, event)}  className='icon'>
+                    <InfoIcon />
+                  </IconButton>
+                }
+              />
+            </GridListTile>)}
+          </GridList>
+        </div>
       }
-    />
-  </GridListTile>
-
-class CharactersList extends React.Component {
-
-  constructor() {
-    super()
-    this.state = {
-      characters: [],
-      isLoading: true,
-      hasMore: true,
-    }
-  }
-
-  componentDidMount() {
-    fetch(`${endpoint}/v1/public/characters?${apikey}`, { method: 'GET' })
-      .then(result => result.json())
-      .then(response => this.setState({characters: response.data.results, isLoading: false}))
-  }
-
-  render() {
-    const { classes } = this.props
-    let content = null
-    const loading = <Loading/>
-    if (!this.state.isLoading) {
-      content = this.state.characters.map(character => characterItem({
-        index: character.id,
-        image: `${character.thumbnail.path}.${character.thumbnail.extension}`,
-        name: character.name,
-        icon: classes.icon,
-      }))
-    }
-    return (
-      <Fragment>
-        {
-          (this.state.isLoading) ? loading : 
-          <div className={classes.root}>
-            <GridList cellHeight={250} className={classes.gridList} data-grid-item>
-              {content}
-            </GridList>
-          </div>
-        }
-      </Fragment>
-    )
-  }
+    </MuiThemeProvider>
+  )
 }
-
-CharactersList.propTypes = {
-  classes: PropTypes.object,
-}
-
-characterItem.propTypes = {
-  index: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ]),
-  image: PropTypes.string,
-  name: PropTypes.string,
-  subtitle: PropTypes.string,
-  icon: PropTypes.string,
-}
-
-export default withStyles(styles)(CharactersList)
