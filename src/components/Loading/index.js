@@ -1,25 +1,19 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import React from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 
-const styles = theme => ({
+const defaultTheme = createMuiTheme()
+
+const styles = createMuiTheme({
   progress: {
-    margin: theme.spacing.unit * 2,
+    margin: defaultTheme.spacing.unit * 2,
   },
 })
 
-class Loading extends Component {
-  render() {
-    const { classes } = this.props
-    return (
-      <CircularProgress className={classes.progress} />
-    )
-  }
+export default function Loading() {
+  return (
+    <MuiThemeProvider theme={styles}>
+      <CircularProgress className={styles.progress} />
+    </MuiThemeProvider>
+  )
 }
-
-Loading.propTypes = {
-  classes: PropTypes.object,
-}
-
-export default withStyles(styles)(Loading)
