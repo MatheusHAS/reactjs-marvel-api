@@ -48,12 +48,10 @@ export default function CharactersList() {
     console.log('Click on', id)
   }
 
-  const loadingComponent = <Loading/>
-
   return(
     <MuiThemeProvider theme={styles}>
       {
-        (isLoading) ? loadingComponent : 
+        (isLoading) ? <Loading/> : 
         <div className='root'>
           <GridList cellHeight={250} className='gridList' data-grid-item>
             {characters.map(character => <GridListTile key={character.id}>
