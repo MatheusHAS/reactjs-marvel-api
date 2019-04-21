@@ -7,8 +7,8 @@ import GridListTileBar from '@material-ui/core/GridListTileBar'
 import IconButton from '@material-ui/core/IconButton'
 import InfoIcon from '@material-ui/icons/Info'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
-import Loading from './../Loading/Loading'
-import { endpoint, apikey } from './../../configs'
+import Loading from '../Loading'
+import { endpoint, apikey } from '../../configs'
 
 import './CharactersList.css'
 const styles = createMuiTheme({

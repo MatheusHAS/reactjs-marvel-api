@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import CharactersList from '../CharactersList/CharactersList'
+import CharactersList from '../CharactersList'
 
 export default class CharactersListPage extends Component {
   render() {

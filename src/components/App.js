@@ -1,27 +1,27 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { withStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import ComicsListPage from './ComicsListPage/ComicsListPage';
-import CharactersListPage from './CharactersListPage/CharactersListPage';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import React from 'react'
+import PropTypes from 'prop-types'
+import classNames from 'classnames'
+import { withStyles } from '@material-ui/core/styles'
+import Drawer from '@material-ui/core/Drawer'
+import CssBaseline from '@material-ui/core/CssBaseline'
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
+import List from '@material-ui/core/List'
+import Typography from '@material-ui/core/Typography'
+import Divider from '@material-ui/core/Divider'
+import IconButton from '@material-ui/core/IconButton'
+import MenuIcon from '@material-ui/icons/Menu'
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
+import ChevronRightIcon from '@material-ui/icons/ChevronRight'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemText from '@material-ui/core/ListItemText'
+import InboxIcon from '@material-ui/icons/MoveToInbox'
+import ComicsListPage from './ComicsListPage'
+import CharactersListPage from './CharactersListPage'
+import { BrowserRouter as Router, Route, Link } from "react-router-dom"
 
-const drawerWidth = 240;
+const drawerWidth = 240
 
 const styles = theme => ({
   root: {
@@ -78,7 +78,7 @@ const styles = theme => ({
     }),
     marginLeft: 0,
   },
-});
+})
 
 const menuItems = [
   {
@@ -105,8 +105,8 @@ class App extends React.Component {
   };
 
   render() {
-    const { classes, theme } = this.props;
-    const { open } = this.state;
+    const { classes, theme } = this.props
+    const { open } = this.state
 
     return (
       <Router>
@@ -168,13 +168,13 @@ class App extends React.Component {
           </main>
         </div>
       </Router>
-    );
+    )
   }
 }
 
 App.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
-};
+}
 
-export default withStyles(styles, { withTheme: true })(App);
+export default withStyles(styles, { withTheme: true })(App)

@@ -5,9 +5,9 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import Avatar from '@material-ui/core/Avatar'
-import Loading from './../Loading/Loading'
+import Loading from '../Loading'
 import PropTypes from 'prop-types'
-import { endpoint, apikey } from './../../configs'
+import { endpoint, apikey } from '../../configs'
 
 const styles = theme => ({
   root: {
